@@ -1,10 +1,10 @@
 <?php
 
-namespace Activities\Activities;
+namespace Activities;
 
-use Activities\Activities\Extension\AppExtension;
-use Activities\Activities\Extension\ConsoleExtension;
-use Activities\Activities\Extension\DoctrineExtension;
+use Activities\Extension\AppExtension;
+use Activities\Extension\ConsoleExtension;
+use Activities\Extension\DoctrineExtension;
 use Phpactor\Container\PhpactorContainer;
 
 final class ContainerFactory

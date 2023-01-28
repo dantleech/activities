@@ -1,6 +1,6 @@
 <?php
 
-namespace Activities\Activities\Model;
+namespace Activities\Model;
 
 enum ActivityType: string
 {

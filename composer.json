@@ -17,7 +17,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Activities\\Activities\\": "src/"
+            "Activities\\": "src/"
         }
     },
     "authors": [

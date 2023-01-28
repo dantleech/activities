@@ -1,6 +1,6 @@
 <?php
 
-use Activities\Activities\ContainerFactory;
+use Activities\ContainerFactory;
 use Slim\App;
 
 require __DIR__  . '/../vendor/autoload.php';

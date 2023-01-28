@@ -1,8 +1,9 @@
 <?php
 
-namespace Activities\Activities\Extension;
+namespace Activities\Extension;
 
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\Command\SchemaTool\UpdateCommand;
@@ -12,12 +13,14 @@ use Phpactor\Container\Container;
 use Phpactor\Container\ContainerBuilder;
 use Phpactor\Container\Extension;
 use Phpactor\MapResolver\Resolver;
+use Ramsey\Uuid\Doctrine\UuidType;
 
 class DoctrineExtension implements Extension
 {
     public function load(ContainerBuilder $container): void
     {
         $container->register(EntityManager::class, function (Container $container) {
+            Type::addType('uuid', UuidType::class);
             $config = ORMSetup::createAttributeMetadataConfiguration(
                 paths: [__DIR__.'/../Model'],
                 isDevMode: true,

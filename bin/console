@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use Activities\Activities\ContainerFactory;
+use Activities\ContainerFactory;
 use Symfony\Component\Console\Application;
 
 require __DIR__ . '/../vendor/autoload.php';
