@@ -8,9 +8,11 @@ use Doctrine\ORM\Mapping\Embeddable;
 #[Embeddable()]
 class Event
 {
-    #[Column]
-    public int $participants;
+    public function __construct(
+        #[Column]
+        public int $participants,
 
-    #[Column]
-    public int $position;
+        #[Column]
+        public int $position,
+    ){}
 }
