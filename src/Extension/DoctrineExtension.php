@@ -22,7 +22,7 @@ class DoctrineExtension implements Extension
         $container->register(EntityManager::class, function (Container $container) {
             Type::addType('uuid', UuidType::class);
             $config = ORMSetup::createAttributeMetadataConfiguration(
-                paths: [__DIR__.'/../Model'],
+                paths: [__DIR__.'/../Entity'],
                 isDevMode: true,
             );
             $connection = DriverManager::getConnection([

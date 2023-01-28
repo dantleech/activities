@@ -1,6 +1,6 @@
 <?php
 
-namespace Activities\Model;
+namespace Activities\Entity;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;

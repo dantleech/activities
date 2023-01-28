@@ -1,8 +1,10 @@
 <?php
 
-namespace Activities\Model;
+namespace Activities\Entity;
 
 use DateTimeImmutable;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,6 +17,9 @@ class Activity
     public readonly UuidInterface $uuid;
 
     final public function __construct(
+        #[ManyToOne(targetEntity: User::class)]
+        #[JoinColumn(name: 'user_uuid', referencedColumnName: 'uuid')]
+        public User $user,
         #[ORM\Column()]
         public string $title,
         #[ORM\Column()]
