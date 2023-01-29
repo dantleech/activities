@@ -17,7 +17,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Activities\\": "src/"
+            "Activities\\": "src/",
+            "DTL\\OpenApi\\": "packages/open-api"
         }
     },
     "authors": [

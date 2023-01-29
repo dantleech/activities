@@ -1,7 +1,8 @@
 <?php
 
-namespace Activities\Extension;
+namespace Activities\Extension\Doctrine;
 
+use Activities\Extension\Console\ConsoleExtension;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;

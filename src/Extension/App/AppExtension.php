@@ -1,6 +1,6 @@
 <?php
 
-namespace Activities\Extension;
+namespace Activities\Extension\App;
 
 use Phpactor\Container\ContainerBuilder;
 use Phpactor\Container\Extension;

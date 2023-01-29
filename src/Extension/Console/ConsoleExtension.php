@@ -1,6 +1,6 @@
 <?php
 
-namespace Activities\Extension;
+namespace Activities\Extension\Console;
 
 use Phpactor\Container\Container;
 use Phpactor\Container\ContainerBuilder;

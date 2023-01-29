@@ -2,9 +2,9 @@
 
 namespace Activities;
 
-use Activities\Extension\AppExtension;
-use Activities\Extension\ConsoleExtension;
-use Activities\Extension\DoctrineExtension;
+use Activities\Extension\App\AppExtension;
+use Activities\Extension\Console\ConsoleExtension;
+use Activities\Extension\Doctrine\DoctrineExtension;
 use Phpactor\Container\PhpactorContainer;
 
 final class ContainerFactory
