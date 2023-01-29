@@ -7,5 +7,7 @@ use Attribute;
 #[Attribute()]
 class Path
 {
-    public function __construct(string $path) {}
+    public function __construct(public string $path)
+    {
+    }
 }
