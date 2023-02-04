@@ -4,6 +4,7 @@ namespace Activities\Extension\Slim\OpenApi;
 
 use ArgumentCountError;
 use DTL\OpenApi\ArgumentResolver;
+use DTL\OpenApi\ArgumentsSource;
 use DTL\OpenApi\Metadata\MethodMetadatas;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Container\ContainerInterface;
@@ -70,8 +71,12 @@ class OpenApiMiddleware implements MiddlewareInterface
 
         try {
             $output = $handler->$methodName(...$this->argumentResolver->resolveArguments(
-                $request->getAttributes(),
-                $metadata
+                $metadata,
+                new ArgumentsSource(
+                    $route->getArguments(),
+                    [],
+                    $request->getQueryParams(),
+                ),
             ));
         } catch (ArgumentCountError $error) {
             throw new RuntimeException(sprintf(

@@ -35,7 +35,7 @@ class ArgumentResolver
     {
         if (!isset($data[$key])) {
             throw new RuntimeException(sprintf(
-                'Could not find %s in %s, known keys: %s',
+                'Could not find "%s" in %s, known keys: "%s"',
                 $key,
                 $type->value,
                 implode('", "', array_keys($data))
