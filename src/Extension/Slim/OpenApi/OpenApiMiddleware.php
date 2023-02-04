@@ -72,11 +72,7 @@ class OpenApiMiddleware implements MiddlewareInterface
         try {
             $output = $handler->$methodName(...$this->argumentResolver->resolveArguments(
                 $metadata,
-                new ArgumentsSource(
-                    $route->getArguments(),
-                    [],
-                    $request->getQueryParams(),
-                ),
+                ArgumentsSource::fromPsrServerRequest($request)->withPathParameters($route->getArguments()),
             ));
         } catch (ArgumentCountError $error) {
             throw new RuntimeException(sprintf(
