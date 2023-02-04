@@ -2,9 +2,11 @@
 
 namespace DTL\OpenApi;
 
+use DTL\OpenApi\Attributes\Param;
 use DTL\OpenApi\Attributes\Path;
 use DTL\OpenApi\Metadata\MethodMetadata;
 use DTL\OpenApi\Metadata\MethodMetadatas;
+use DTL\OpenApi\Metadata\ParamMetadata;
 use ReflectionClass;
 
 final class MetadataLoader
@@ -21,11 +23,15 @@ final class MetadataLoader
 
                 $path = null;
                 $verbs = ['GET'];
+                $params = [];
 
                 foreach ($method->getAttributes() as $attribute) {
                     $attribute = $attribute->newInstance();
                     if ($attribute instanceof Path) {
                         $path = $attribute->path;
+                    }
+                    if ($attribute instanceof Param) {
+                        $params[] = new ParamMetadata($attribute->name, $attribute->in);
                     }
                 }
 
@@ -33,7 +39,8 @@ final class MetadataLoader
                     $fqn,
                     $method->name,
                     $path,
-                    $verbs
+                    $verbs,
+                    $params,
                 );
             }
         }

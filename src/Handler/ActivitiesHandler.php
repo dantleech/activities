@@ -15,7 +15,9 @@ class ActivitiesHandler
     #[Api\Response(code: 200, type: 'ListResponseDTO<ActivityDTO>')]
     public function getActivity(ServerRequestInterface $request): ActivityDTO
     {
-        RouteContext::fromRequest($request)->getRoute()->getArgument('uuid');
-        return new ActivityDTO();
+        $context = RouteContext::fromRequest($request);
+        $uuid = $context->getRoute()->getArgument('uuid');
+
+        return new ActivityDTO($uuid);
     }
 }

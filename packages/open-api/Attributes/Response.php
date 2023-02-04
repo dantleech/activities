@@ -8,9 +8,9 @@ use Attribute;
 class Response
 {
     /**
-     * @param class-string $type
+     * @param null|class-string<T> $type
      */
-    public function __construct(int $code, string $type)
+    public function __construct(int $code, ?string $type = null)
     {
     }
 }

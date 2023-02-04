@@ -4,8 +4,9 @@ namespace DTL\OpenApi\Attributes;
 
 use Attribute;
 
-#[Attribute()]
+#[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_METHOD)]
 class Param
 {
-    public function __construct(string $name, string $description, bool $required = true) {}
+    public function __construct(public string $name, public string $description, public ParamIn $in, public bool $required = true) {
+    }
 }

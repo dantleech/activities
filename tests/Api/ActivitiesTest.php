@@ -15,6 +15,6 @@ class ActivitiesTest extends IntegrationTestCase
         );
 
         self::assertEquals(200, $response->getStatusCode());
-        self::assertEquals('{}', $response->getBody()->getContents());
+        self::assertEquals('{"uuid":"1234-1234-1234-1234"}', $response->getBody()->getContents());
     }
 }
