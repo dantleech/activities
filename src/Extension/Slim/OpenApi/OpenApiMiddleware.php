@@ -6,7 +6,7 @@ use ArgumentCountError;
 use DTL\OpenApi\ArgumentResolver;
 use DTL\OpenApi\ArgumentsSource;
 use DTL\OpenApi\Metadata\MethodMetadatas;
-use Laminas\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,6 +15,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
 use Slim\Exception\HttpNotFoundException;
 use Slim\Routing\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class OpenApiMiddleware implements MiddlewareInterface
 {
@@ -22,6 +23,7 @@ class OpenApiMiddleware implements MiddlewareInterface
         private ContainerInterface $container,
         private MethodMetadatas $methodMetadatas,
         private ArgumentResolver $argumentResolver,
+        private SerializerInterface $serializer,
     ) {
     }
 
@@ -93,6 +95,11 @@ class OpenApiMiddleware implements MiddlewareInterface
             throw new HttpNotFoundException($request, sprintf('Not found [%s] %s', $request->getMethod(), $request->getUri()));
         }
 
-        return new JsonResponse($output);
+        $response = new Response();
+        $response = $response->withHeader('Content-Type', 'application/json');
+        $response = $response->withStatus(200);
+        $response->getBody()->write($this->serializer->serialize($output, 'json'));
+
+        return $response;
     }
 }

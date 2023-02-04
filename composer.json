@@ -16,7 +16,9 @@
         "phpunit/phpunit": "^9.5",
         "phpstan/phpstan": "^1.9",
         "friendsofphp/php-cs-fixer": "^3.13",
-        "symfony/var-dumper": "^6.2"
+        "symfony/var-dumper": "^6.2",
+        "symfony/serializer": "^6.2",
+        "symfony/property-access": "^6.2"
     },
     "license": "MIT",
     "autoload": {

@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Phpactor\Container\Container;
 use Phpactor\Container\PhpactorContainer;
 use Slim\App;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class IntegrationTestCase extends TestCase
 {
@@ -22,6 +23,7 @@ class IntegrationTestCase extends TestCase
             new RequestHandler(
                 new AppHttpClient($this->container()->get(App::class)),
                 (new MapperBuilder())->mapper(),
+                $this->container()->get(SerializerInterface::class),
             ),
         );
     }

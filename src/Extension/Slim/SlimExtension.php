@@ -13,6 +13,12 @@ use Phpactor\Container\Extension;
 use Phpactor\MapResolver\Resolver;
 use Slim\App;
 use Slim\Factory\AppFactory;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class SlimExtension implements Extension
 {
@@ -36,7 +42,8 @@ class SlimExtension implements Extension
             return new OpenApiMiddleware(
                 $container,
                 $container->get(MethodMetadatas::class),
-                $container->get(ArgumentResolver::class)
+                $container->get(ArgumentResolver::class),
+                $container->get(SerializerInterface::class),
             );
         });
 
@@ -46,6 +53,16 @@ class SlimExtension implements Extension
 
         $container->register(TreeMapper::class, function (Container $container) {
             return (new MapperBuilder())->mapper();
+        });
+
+        $container->register(SerializerInterface::class, function (Container $container) {
+            return new Serializer([
+                new BackedEnumNormalizer(),
+                new DateTimeNormalizer(),
+                new ObjectNormalizer(),
+            ], [
+                new JsonEncoder(),
+            ]);
         });
     }
 

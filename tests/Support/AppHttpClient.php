@@ -15,7 +15,7 @@ class AppHttpClient implements ClientInterface
     }
     public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        return $this->app->handle(new ServerRequest(
+        $response = $this->app->handle(new ServerRequest(
             serverParams: [],
             uploadedFiles: [],
             uri: $request->getUri(),
@@ -23,5 +23,7 @@ class AppHttpClient implements ClientInterface
             headers: $request->getHeaders(),
             body: $request->getBody(),
         ));
+        $response->getBody()->rewind();
+        return $response;
     }
 }
