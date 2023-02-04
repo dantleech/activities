@@ -5,7 +5,7 @@ namespace DTL\OpenApi\Attributes;
 use Attribute;
 
 #[Attribute()]
-class Response
+class Success
 {
     /**
      * @param null|class-string<T> $type
