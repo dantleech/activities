@@ -7,7 +7,6 @@ use Activities\DTO\ActivityNewDTO;
 use Activities\Entity\Activity;
 use Activities\Entity\ActivityRepository;
 use DTL\OpenApi\Attributes as Api;
-use Ramsey\Uuid\Uuid;
 
 class ActivitiesHandler
 {
