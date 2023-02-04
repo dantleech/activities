@@ -3,6 +3,7 @@
 namespace DTL\OpenApi\Tests;
 
 use DTL\OpenApi\ArgumentResolver;
+use DTL\OpenApi\ArgumentsSource;
 use DTL\OpenApi\Attributes\ParamIn;
 use DTL\OpenApi\Metadata\MethodMetadata;
 use DTL\OpenApi\Metadata\ParamMetadata;
@@ -10,7 +11,6 @@ use DTL\OpenApi\Tests\Example\ExampleHandler;
 use Generator;
 use Laminas\Diactoros\ServerRequest;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ServerRequestInterface;
 
 class ArgumentResolverTest extends TestCase
 {
@@ -20,11 +20,11 @@ class ArgumentResolverTest extends TestCase
      */
     public function testResolveArguments(
         MethodMetadata $metadata,
-        ServerRequestInterface $request,
+        ArgumentsSource $source,
         array $expected,
     ): void
     {
-        self::assertEquals($expected, (new ArgumentResolver())->resolveArguments($metadata, $request));
+        self::assertEquals($expected, (new ArgumentResolver())->resolveArguments($metadata, $source));
     }
     /**
      * @return Generator<array{MethodMetadata,ServerRequest,array<string,string>}>
@@ -35,15 +35,9 @@ class ArgumentResolverTest extends TestCase
             new MethodMetadata(ExampleHandler::class, 'handle', '/path', [], [
                 new ParamMetadata('uuid', ParamIn::PATH),
             ]),
-            (new ServerRequest(
-                serverParams: [],
-                uploadedFiles: [],
-                uri: '/foobar',
-                method: 'GET',
-                headers: [],
-                cookieParams: [],
-                queryParams: [],
-            ))->withAttribute('uuid', '1234-1234'),
+            new ArgumentsSource(
+                path: ['uuid' => '1234-1234'],
+            ),
             [
                 'uuid' => '1234-1234',
             ]

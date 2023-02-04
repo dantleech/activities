@@ -16,6 +16,7 @@
     <testsuites>
         <testsuite name="default">
             <directory>tests</directory>
+            <directory>packages/open-api</directory>
         </testsuite>
     </testsuites>
 

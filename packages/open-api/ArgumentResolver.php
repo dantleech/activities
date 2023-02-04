@@ -4,7 +4,6 @@ namespace DTL\OpenApi;
 
 use DTL\OpenApi\Attributes\ParamIn;
 use DTL\OpenApi\Metadata\MethodMetadata;
-use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 
 class ArgumentResolver
@@ -13,12 +12,12 @@ class ArgumentResolver
      * @return array<string,mixed>
      * @param array<int,mixed> $attributes
      */
-    public function resolveArguments(MethodMetadata $metadata, ServerRequestInterface $request): array
+    public function resolveArguments(MethodMetadata $metadata, ArgumentsSource $source): array
     {
         $arguments = [];
         foreach ($metadata->params as $parameter) {
             $arguments[$parameter->name] = match ($parameter->in) {
-                ParamIn::PATH => $this->extract($parameter->in, $request->getAttributes(), $parameter->name),
+                ParamIn::PATH => $this->extract($parameter->in, $source->path, $parameter->name),
                 default => throw new RuntimeException(sprintf(
                     'Unsupported param in: %s',
                     $parameter->in

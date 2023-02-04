@@ -12,9 +12,9 @@ class ArgumentsSource
      * @param array<string,string> $query
      */
     public function __construct(
-        public array $path,
-        public array $header,
-        public array $query,
+        public array $path = [],
+        public array $header = [],
+        public array $query = [],
     ) {
     }
 
