@@ -3,6 +3,7 @@
 namespace Activities\Extension\Slim;
 
 use Activities\Extension\Slim\OpenApi\OpenApiMiddleware;
+use DTL\OpenApi\ArgumentResolver;
 use DTL\OpenApi\Metadata\MethodMetadatas;
 use Phpactor\Container\Container;
 use Phpactor\Container\ContainerBuilder;
@@ -18,7 +19,7 @@ class SlimExtension implements Extension
         $container->register(App::class, function (Container $container) {
             $app = AppFactory::create(null, $container);
             foreach ($container->get(MethodMetadatas::class)->methods as $method) {
-                $app->map($method->methods, $method->path, [
+                $app->map($method->verbs, $method->path, [
                     $method->classFqn,
                     $method->name,
                 ]);
@@ -29,8 +30,17 @@ class SlimExtension implements Extension
         });
 
         $container->register(OpenApiMiddleware::class, function (Container $container) {
-            return new OpenApiMiddleware($container, $container->get(MethodMetadatas::class));
+            return new OpenApiMiddleware(
+                $container,
+                $container->get(MethodMetadatas::class),
+                $container->get(ArgumentResolver::class)
+            );
         });
+
+        $container->register(ArgumentResolver::class, function (Container $container) {
+            return new ArgumentResolver();
+        });
+
     }
 
     public function configure(Resolver $schema): void

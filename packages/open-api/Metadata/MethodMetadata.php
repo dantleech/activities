@@ -12,7 +12,7 @@ class MethodMetadata
         public readonly string $classFqn,
         public readonly string $name,
         public string $path,
-        public array $methods,
+        public array $verbs,
         public array $params,
     ) {
     }

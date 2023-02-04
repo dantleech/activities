@@ -2,6 +2,8 @@
 
 namespace Activities\Extension\Slim\OpenApi;
 
+use ArgumentCountError;
+use DTL\OpenApi\ArgumentResolver;
 use DTL\OpenApi\Metadata\MethodMetadatas;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Container\ContainerInterface;
@@ -14,7 +16,11 @@ use Slim\Routing\Route;
 
 class OpenApiMiddleware implements MiddlewareInterface
 {
-    public function __construct(private ContainerInterface $container, private MethodMetadatas $methodMetadatas)
+    public function __construct(
+        private ContainerInterface $container,
+        private MethodMetadatas $methodMetadatas,
+        private ArgumentResolver $argumentResolver,
+    )
     {
     }
 
@@ -46,10 +52,35 @@ class OpenApiMiddleware implements MiddlewareInterface
         }
 
         [$classFqn, $methodName] = $callable;
+        $metadata = $this->methodMetadatas->get($classFqn, $methodName);
+
+        if (null === $metadata) {
+            return $handler->handle($request);
+        }
 
         $handler = $this->container->get($classFqn);
 
-        $output = call_user_func([$handler, $methodName], $request);
+        if (!method_exists($handler, $methodName)) {
+            throw new RuntimeException(sprintf(
+                'Method "%s" does not exist on "%s"',
+                $methodName, get_class($handler)
+            ));
+                
+        }
+
+        try {
+            $output = $handler->$methodName(...$this->argumentResolver->resolveArguments(
+                $request->getAttributes(),
+                $metadata
+            ));
+        } catch (ArgumentCountError $error) {
+            throw new RuntimeException(sprintf(
+                'Invalid parameters passed to %s:%s: %s',
+                get_class($handler),
+                $methodName,
+                $error->getMessage()
+            ));
+        }
 
         return new JsonResponse($output);
     }
