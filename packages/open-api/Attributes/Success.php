@@ -8,9 +8,12 @@ use Attribute;
 class Success
 {
     /**
-     * @param null|class-string<T> $type
+     * @param null|class-string $type
      */
-    public function __construct(int $code, ?string $type = null)
+    public function __construct(
+        public readonly int $code,
+        public readonly ?string $type = null,
+    )
     {
     }
 }

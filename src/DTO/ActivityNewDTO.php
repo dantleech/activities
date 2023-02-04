@@ -5,7 +5,6 @@ namespace Activities\DTO;
 use Activities\Model\ActivityType;
 use DateTimeImmutable;
 
-
 class ActivityNewDTO
 {
     public function __construct(

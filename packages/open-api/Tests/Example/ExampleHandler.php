@@ -13,6 +13,7 @@ class ExampleHandler
     #[Api\Param('X-FOOBAR', 'The secure foobar', Api\ParamIn::HEADER)]
     #[Api\Param('session', 'Cookie value', Api\ParamIn::COOKIE)]
     #[Api\Path('/foobar/{location}/{uuid}')]
+    #[Api\Success(code: 201)]
     public function handle(): stdClass {
         return new stdClass();
     }

@@ -7,7 +7,6 @@ use Laminas\Diactoros\CallbackStream;
 use Laminas\Diactoros\Request;
 use Psr\Http\Client\ClientInterface;
 use CuyZ\Valinor\Mapper\Source\Source;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 final class RequestHandler

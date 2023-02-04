@@ -5,13 +5,14 @@ namespace DTL\OpenApi;
 use DTL\OpenApi\Attributes\Param;
 use DTL\OpenApi\Attributes\Path;
 use DTL\OpenApi\Attributes\RequestBody;
+use DTL\OpenApi\Attributes\Success;
 use DTL\OpenApi\Attributes\Verbs;
 use DTL\OpenApi\Metadata\BodyMetadata;
 use DTL\OpenApi\Metadata\MethodMetadata;
 use DTL\OpenApi\Metadata\MethodMetadatas;
 use DTL\OpenApi\Metadata\ParamMetadata;
+use DTL\OpenApi\Metadata\SuccessMetadata;
 use ReflectionClass;
-use RuntimeException;
 
 final class MetadataLoader
 {
@@ -29,6 +30,7 @@ final class MetadataLoader
                 $verbs = ['GET'];
                 $params = [];
                 $body = null;
+                $success = new SuccessMetadata(200);
 
                 foreach ($method->getAttributes() as $attribute) {
                     $attribute = $attribute->newInstance();
@@ -40,6 +42,9 @@ final class MetadataLoader
                     }
                     if ($attribute instanceof Verbs) {
                         $verbs = $attribute->verbs;
+                    }
+                    if ($attribute instanceof Success) {
+                        $success = new SuccessMetadata($attribute->code);
                     }
                     if ($attribute instanceof RequestBody) {
                         $body = new BodyMetadata($attribute->type, $attribute->param);
@@ -57,6 +62,7 @@ final class MetadataLoader
                     $verbs,
                     $params,
                     $body,
+                    $success,
                 );
             }
         }

@@ -18,7 +18,7 @@ class ActivitiesHandler
     #[Api\Description('Return specific activity for authenticated user')]
     #[Api\Param('uuid', 'UUID of the activity', in: Api\ParamIn::PATH, required: true)]
     #[Api\Path('/v1/activities/{uuid}')]
-    #[Api\Success(200)]
+    #[Api\Success(200, ActivityDTO::class)]
     public function get(string $uuid): ?ActivityDTO
     {
         $activity = $this->repository->find($uuid);
@@ -34,7 +34,7 @@ class ActivitiesHandler
     #[Api\Description('Add an activity for the authenticated user')]
     #[Api\Path('/v1/activities')]
     #[Api\RequestBody(ActivityNewDTO::class, param: 'newActivity')]
-    #[Api\Success(200)]
+    #[Api\Success(200, ActivityDTO::class)]
     public function add(ActivityNewDTO $newActivity): ActivityDTO
     {
         $activity = Activity::fromNewActivity($newActivity);

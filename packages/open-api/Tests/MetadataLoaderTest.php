@@ -2,7 +2,6 @@
 
 namespace DTL\OpenApi\Tests;
 
-use DTL\OpenApi\Attributes\Param;
 use DTL\OpenApi\Attributes\ParamIn;
 use DTL\OpenApi\MetadataLoader;
 use DTL\OpenApi\Metadata\ParamMetadata;
@@ -21,6 +20,7 @@ class MetadataLoaderTest extends TestCase
         self::assertEquals('handle', $metadata->methods[0]->name);
         self::assertEquals(ExampleHandler::class, $metadata->methods[0]->classFqn);
         self::assertEquals('/foobar/{location}/{uuid}', $metadata->methods[0]->path);
+        self::assertEquals(201, $metadata->methods[0]->success->code);
 
         (function (ParamMetadata $p) {
             self::assertEquals('uuid', $p->name);

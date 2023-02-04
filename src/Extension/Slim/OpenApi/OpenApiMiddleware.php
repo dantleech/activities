@@ -97,7 +97,7 @@ class OpenApiMiddleware implements MiddlewareInterface
 
         $response = new Response();
         $response = $response->withHeader('Content-Type', 'application/json');
-        $response = $response->withStatus(200);
+        $response = $response->withStatus($metadata->success->code);
         $response->getBody()->write($this->serializer->serialize($output, 'json'));
 
         return $response;
