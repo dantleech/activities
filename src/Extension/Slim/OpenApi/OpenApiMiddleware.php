@@ -13,6 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
+use Slim\Exception\HttpNotFoundException;
 use Slim\Routing\Route;
 
 class OpenApiMiddleware implements MiddlewareInterface
@@ -81,6 +82,10 @@ class OpenApiMiddleware implements MiddlewareInterface
                 $methodName,
                 $error->getMessage()
             ));
+        }
+
+        if (null === $output) {
+            throw new HttpNotFoundException($request);
         }
 
         return new JsonResponse($output);

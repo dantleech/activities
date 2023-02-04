@@ -8,6 +8,7 @@ use DTL\OpenApi\Metadata\MethodMetadata;
 use DTL\OpenApi\Metadata\MethodMetadatas;
 use DTL\OpenApi\Metadata\ParamMetadata;
 use ReflectionClass;
+use RuntimeException;
 
 final class MetadataLoader
 {
@@ -33,6 +34,10 @@ final class MetadataLoader
                     if ($attribute instanceof Param) {
                         $params[] = new ParamMetadata($attribute->name, $attribute->in);
                     }
+                }
+
+                if (!$path) {
+                    continue;
                 }
 
                 $methods[] = new MethodMetadata(
