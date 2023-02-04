@@ -17,6 +17,7 @@ class ApiExtension implements Extension
     {
         $container->register(MethodMetadatas::class, function (Container $continer) {
             return (new MetadataLoader())->load(
+                /** @phpstan-ignore-next-line */
                 array_keys($continer->getServiceIdsForTag(self::TAG_HANDLER))
             );
         });

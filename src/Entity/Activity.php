@@ -3,9 +3,6 @@
 namespace Activities\Entity;
 
 use Activities\DTO\ActivityNewDTO;
-use DateTimeImmutable;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\ManyToOne;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,7 +21,7 @@ class Activity
         $this->uuid = Uuid::uuid4();
     }
 
-    public static function fromNewActivity(ActivityNewDTO $newActivity)
+    public static function fromNewActivity(ActivityNewDTO $newActivity): Activity
     {
         return new self(
             title: $newActivity->title

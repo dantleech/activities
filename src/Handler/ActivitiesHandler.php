@@ -10,7 +10,8 @@ use DTL\OpenApi\Attributes as Api;
 
 class ActivitiesHandler
 {
-    public function __construct(private ActivityRepository $repository) {
+    public function __construct(private ActivityRepository $repository)
+    {
     }
 
     #[Api\Verbs(['GET'])]

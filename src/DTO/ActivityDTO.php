@@ -9,8 +9,7 @@ class ActivityDTO
     public function __construct(
         public string $uuid,
         public string $title
-    )
-    {
+    ) {
     }
 
     public static function fromEntity(Activity $activity): self

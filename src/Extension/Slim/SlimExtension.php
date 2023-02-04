@@ -21,6 +21,7 @@ class SlimExtension implements Extension
         $container->register(App::class, function (Container $container) {
             $app = AppFactory::create(null, $container);
             foreach ($container->get(MethodMetadatas::class)->methods as $method) {
+                /** @phpstan-ignore-next-line */
                 $app->map($method->verbs, $method->path, [
                     $method->classFqn,
                     $method->name,
@@ -46,7 +47,6 @@ class SlimExtension implements Extension
         $container->register(TreeMapper::class, function (Container $container) {
             return (new MapperBuilder())->mapper();
         });
-
     }
 
     public function configure(Resolver $schema): void

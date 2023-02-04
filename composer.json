@@ -35,5 +35,12 @@
             "name": "Daniel Leech",
             "email": "daniel@dantleech.com"
         }
-    ]
+    ],
+    "scripts": {
+        "integrate": [
+            "./vendor/bin/php-cs-fixer fix",
+            "./vendor/bin/phpstan analyse",
+            "./vendor/bin/phpunit"
+        ]
+    }
 }

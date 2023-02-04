@@ -10,8 +10,8 @@ use Ramsey\Uuid\UuidInterface;
 class User
 {
     #[ORM\Id]
-    #[ORM\Column(type: "uuid")]
-    private UuidInterface $uuid;
+    #[ORM\Column(type: 'uuid')]
+    public UuidInterface $uuid;
 
     public function __construct(
         #[ORM\Column()]

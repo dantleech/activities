@@ -22,8 +22,7 @@ class OpenApiMiddleware implements MiddlewareInterface
         private ContainerInterface $container,
         private MethodMetadatas $methodMetadatas,
         private ArgumentResolver $argumentResolver,
-    )
-    {
+    ) {
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -65,9 +64,9 @@ class OpenApiMiddleware implements MiddlewareInterface
         if (!method_exists($handler, $methodName)) {
             throw new RuntimeException(sprintf(
                 'Method "%s" does not exist on "%s"',
-                $methodName, get_class($handler)
+                $methodName,
+                get_class($handler)
             ));
-                
         }
 
         $argumentSource = ArgumentsSource::fromPsrServerRequest($request);

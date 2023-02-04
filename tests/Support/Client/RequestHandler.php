@@ -39,6 +39,4 @@ final class RequestHandler
         $response = $this->client->sendRequest(new Request($path, 'POST', new CallbackStream(fn () => json_encode($object))));
         return (new MapperBuilder())->mapper()->map($type, Source::json($response->getBody()->getContents()));
     }
-
-
 }
