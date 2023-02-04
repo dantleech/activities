@@ -2,6 +2,7 @@
 
 namespace Activities\Entity;
 
+use Activities\DTO\ActivityNewDTO;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
@@ -17,22 +18,16 @@ class Activity
     public readonly UuidInterface $uuid;
 
     final public function __construct(
-        #[ManyToOne(targetEntity: User::class)]
-        #[JoinColumn(name: 'user_uuid', referencedColumnName: 'uuid')]
-        public User $user,
         #[ORM\Column()]
         public string $title,
-        #[ORM\Column()]
-        public DateTimeImmutable $date,
-        #[ORM\Column()]
-        public ActivityType $type,
-        #[ORM\Column()]
-        public int $distance,
-        #[ORM\Column()]
-        public int $time,
-        #[ORM\Embedded()]
-        public ?Event $race,
     ) {
         $this->uuid = Uuid::uuid4();
+    }
+
+    public static function fromNewActivity(ActivityNewDTO $newActivity)
+    {
+        return new self(
+            title: $newActivity->title
+        );
     }
 }

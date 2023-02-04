@@ -3,6 +3,8 @@
 namespace Activities\Extension\Slim;
 
 use Activities\Extension\Slim\OpenApi\OpenApiMiddleware;
+use CuyZ\Valinor\MapperBuilder;
+use CuyZ\Valinor\Mapper\TreeMapper;
 use DTL\OpenApi\ArgumentResolver;
 use DTL\OpenApi\Metadata\MethodMetadatas;
 use Phpactor\Container\Container;
@@ -38,7 +40,11 @@ class SlimExtension implements Extension
         });
 
         $container->register(ArgumentResolver::class, function (Container $container) {
-            return new ArgumentResolver();
+            return new ArgumentResolver($container->get(TreeMapper::class));
+        });
+
+        $container->register(TreeMapper::class, function (Container $container) {
+            return (new MapperBuilder())->mapper();
         });
 
     }

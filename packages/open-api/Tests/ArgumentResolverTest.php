@@ -2,15 +2,18 @@
 
 namespace DTL\OpenApi\Tests;
 
+use CuyZ\Valinor\MapperBuilder;
 use DTL\OpenApi\ArgumentResolver;
 use DTL\OpenApi\ArgumentsSource;
 use DTL\OpenApi\Attributes\ParamIn;
+use DTL\OpenApi\Metadata\BodyMetadata;
 use DTL\OpenApi\Metadata\MethodMetadata;
 use DTL\OpenApi\Metadata\ParamMetadata;
 use DTL\OpenApi\Tests\Example\ExampleHandler;
 use Generator;
 use Laminas\Diactoros\ServerRequest;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 class ArgumentResolverTest extends TestCase
 {
@@ -24,7 +27,9 @@ class ArgumentResolverTest extends TestCase
         array $expected,
     ): void
     {
-        self::assertEquals($expected, (new ArgumentResolver())->resolveArguments($metadata, $source));
+        self::assertEquals($expected, (new ArgumentResolver(
+            (new MapperBuilder())->mapper(),
+        ))->resolveArguments($metadata, $source));
     }
     /**
      * @return Generator<array{MethodMetadata,ServerRequest,array<string,string>}>
@@ -40,6 +45,27 @@ class ArgumentResolverTest extends TestCase
             ),
             [
                 'uuid' => '1234-1234',
+            ]
+        ];
+
+        yield [
+            new MethodMetadata(
+                ExampleHandler::class,
+                'handleNew',
+                '/path',
+                [],
+                [
+                    new ParamMetadata('uuid', ParamIn::PATH)
+                ],
+                body: new BodyMetadata(type: 'stdClass', param: 'foo')
+            ),
+            new ArgumentsSource(
+                path: ['uuid' => '1234-1234'],
+                bodyReader: fn () => '{}',
+            ),
+            [
+                'uuid' => '1234-1234',
+                'foo' => new stdClass(),
             ]
         ];
     }

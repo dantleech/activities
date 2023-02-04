@@ -3,13 +3,35 @@
 namespace Activities\Tests;
 
 use Activities\ContainerFactory;
+use Activities\Tests\Support\AppHttpClient;
+use Activities\Tests\Support\Client\RequestHandler;
+use Activities\Tests\Support\Client\TestClient;
+use CuyZ\Valinor\MapperBuilder;
 use PHPUnit\Framework\TestCase;
 use Phpactor\Container\Container;
+use Phpactor\Container\PhpactorContainer;
+use Slim\App;
 
 class IntegrationTestCase extends TestCase
 {
+    private ?PhpactorContainer $container = null;
+
+    public function apiClient(): TestClient
+    {
+        return new TestClient(
+            new RequestHandler(
+                new AppHttpClient($this->container()->get(App::class)),
+                (new MapperBuilder())->mapper(),
+            ),
+        );
+    }
+
     public function container(): Container
     {
-        return ContainerFactory::container();
+        if ($this->container) {
+            return $this->container;
+        }
+        $this->container = ContainerFactory::container();
+        return $this->container;
     }
 }

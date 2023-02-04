@@ -70,10 +70,16 @@ class OpenApiMiddleware implements MiddlewareInterface
                 
         }
 
+        $argumentSource = ArgumentsSource::fromPsrServerRequest($request);
+        $argumentSource = $argumentSource->withPathParameters($route->getArguments());
+        $argumentSource = $argumentSource->withBodyReader(function () use ($request) {
+            return $request->getBody()->getContents();
+        });
+
         try {
             $output = $handler->$methodName(...$this->argumentResolver->resolveArguments(
                 $metadata,
-                ArgumentsSource::fromPsrServerRequest($request)->withPathParameters($route->getArguments()),
+                $argumentSource,
             ));
         } catch (ArgumentCountError $error) {
             throw new RuntimeException(sprintf(
@@ -85,7 +91,7 @@ class OpenApiMiddleware implements MiddlewareInterface
         }
 
         if (null === $output) {
-            throw new HttpNotFoundException($request);
+            throw new HttpNotFoundException($request, sprintf('Not found [%s] %s', $request->getMethod(), $request->getUri()));
         }
 
         return new JsonResponse($output);

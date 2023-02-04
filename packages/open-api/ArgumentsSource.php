@@ -2,6 +2,7 @@
 
 namespace DTL\OpenApi;
 
+use Closure;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ArgumentsSource
@@ -10,11 +11,13 @@ class ArgumentsSource
      * @param array<string,string> $path
      * @param array<string,string> $header
      * @param array<string,string> $query
+     * @param Closure(): string $bodyReader
      */
     public function __construct(
         public array $path = [],
         public array $header = [],
         public array $query = [],
+        public ?Closure $bodyReader = null,
     ) {
     }
 
@@ -46,7 +49,30 @@ class ArgumentsSource
         return new self(
             $path,
             $this->header,
-            $this->query
+            $this->query,
+            $this->bodyReader,
+        );
+    }
+
+    public function requestBody(): string
+    {
+        if (!$this->bodyReader) {
+            return '';
+        }
+
+        $reader = $this->bodyReader;
+        return $reader();
+    }
+    /**
+     * @param Closure(): string $bodyReader
+     */
+    public function withBodyReader(Closure $bodyReader): ArgumentsSource
+    {
+        return new self(
+            $this->path,
+            $this->header,
+            $this->query,
+            $bodyReader,
         );
     }
 

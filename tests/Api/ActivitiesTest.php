@@ -2,19 +2,17 @@
 
 namespace Activities\Tests\Api;
 
+use Activities\DTO\ActivityNewDTO;
 use Activities\Tests\IntegrationTestCase;
-use Laminas\Diactoros\ServerRequest;
-use Slim\App;
 
 class ActivitiesTest extends IntegrationTestCase
 {
-    public function testGet(): void
+    public function testAddAndGetActivity(): void
     {
-        $response = $this->container()->get(App::class)->handle(
-            new ServerRequest([], [], '/v1/activities/1234-1234-1234-1234'),
-        );
+        $activity = $this->apiClient()->activities()->add(new ActivityNewDTO('my activity'));
+        self::assertEquals('my activity', $activity->title);
+        $activity = $this->apiClient()->activities()->get($activity->uuid);
+        self::assertEquals('my activity', $activity->title);
 
-        self::assertEquals(200, $response->getStatusCode());
-        self::assertEquals('{"uuid":"1234-1234-1234-1234"}', $response->getBody()->getContents());
     }
 }

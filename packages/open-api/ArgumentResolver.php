@@ -2,12 +2,19 @@
 
 namespace DTL\OpenApi;
 
+use CuyZ\Valinor\Mapper\Source\Source;
+use CuyZ\Valinor\Mapper\TreeMapper;
 use DTL\OpenApi\Attributes\ParamIn;
+use DTL\OpenApi\Metadata\BodyMetadata;
 use DTL\OpenApi\Metadata\MethodMetadata;
 use RuntimeException;
 
 class ArgumentResolver
 {
+    public function __construct(private TreeMapper $mapper)
+    {
+    }
+
     /**
      * @return array<string,mixed>
      * @param array<int,mixed> $attributes
@@ -24,9 +31,16 @@ class ArgumentResolver
                 ))
             };
         }
+        if ($metadata->body) {
+            $arguments = (function (BodyMetadata $body) use ($arguments, $source) {
+                $arguments[$body->param] = $this->mapper->map($body->type, Source::json($source->requestBody()));
+                return $arguments;
+            })($metadata->body);
+        }
 
         return $arguments;
     }
+
     /**
      * @param array<string,mixed> $data
      */
