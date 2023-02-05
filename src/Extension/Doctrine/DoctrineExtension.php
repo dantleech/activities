@@ -7,6 +7,7 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\Command\SchemaTool\UpdateCommand;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider;
@@ -27,6 +28,7 @@ class DoctrineExtension implements Extension
                 paths: [__DIR__.'/../../Entity'],
                 isDevMode: true,
             );
+            $config->setNamingStrategy(new UnderscoreNamingStrategy());
             $connection = DriverManager::getConnection([
                 'driver' => 'pdo_sqlite',
                 'path' => __DIR__ . '/../../../cache/db.sqlite',
