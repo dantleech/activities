@@ -31,6 +31,9 @@ class OauthAccessTokenRepository extends EntityRepository implements AccessToken
     public function revokeAccessToken($tokenId): void
     {
         $token = $this->find($tokenId);
+        if (!$token) {
+            return;
+        }
         $this->getEntityManager()->remove($token);
         $this->getEntityManager()->flush();
     }

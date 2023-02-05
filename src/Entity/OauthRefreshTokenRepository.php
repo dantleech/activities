@@ -30,7 +30,6 @@ class OauthRefreshTokenRepository extends EntityRepository implements RefreshTok
         }
         $this->getEntityManager()->remove($token);
         $this->getEntityManager()->flush();
-
     }
 
     public function isRefreshTokenRevoked($tokenId): bool

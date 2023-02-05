@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use League\OAuth2\Server\Entities\Traits\AccessTokenTrait;
 use RuntimeException;
 
-#[ORM\Entity(repositoryClass:OauthAccessTokenRepository::class)]
+#[ORM\Entity(repositoryClass: OauthAccessTokenRepository::class)]
 class OauthAccessToken implements AccessTokenEntityInterface
 {
     use AccessTokenTrait;
@@ -25,11 +25,11 @@ class OauthAccessToken implements AccessTokenEntityInterface
     #[ORM\Column()]
     public string $userIdentifier;
 
-    /** @var OauthScope[] */
+    /** @var ScopeEntityInterface[] */
     #[ORM\ManyToMany(targetEntity: OauthScope::class)]
-    #[ORM\JoinTable(name: "oauth_access_token_scope")]
-    #[ORM\JoinColumn(name: "oauth_access_token_id", referencedColumnName: "identifier")]
-    #[ORM\InverseJoinColumn(name: "scope_id", referencedColumnName: "identifier")]
+    #[ORM\JoinTable(name: 'oauth_access_token_scope')]
+    #[ORM\JoinColumn(name: 'oauth_access_token_id', referencedColumnName: 'identifier')]
+    #[ORM\InverseJoinColumn(name: 'scope_id', referencedColumnName: 'identifier')]
     public array $scopes = [];
 
     #[ORM\ManyToOne(targetEntity: User::class)]

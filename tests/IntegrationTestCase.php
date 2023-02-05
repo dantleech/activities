@@ -8,14 +8,13 @@ use Activities\Tests\Support\Client\RequestHandler;
 use Activities\Tests\Support\Client\TestClient;
 use CuyZ\Valinor\MapperBuilder;
 use PHPUnit\Framework\TestCase;
-use Phpactor\Container\Container;
-use Phpactor\Container\PhpactorContainer;
+use Psr\Container\ContainerInterface;
 use Slim\App;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class IntegrationTestCase extends TestCase
 {
-    private ?PhpactorContainer $container = null;
+    private ?ContainerInterface $container = null;
 
     public function apiClient(): TestClient
     {
@@ -28,12 +27,14 @@ class IntegrationTestCase extends TestCase
         );
     }
 
-    public function container(): Container
+    public function container(): ContainerInterface
     {
         if ($this->container) {
             return $this->container;
         }
+
         $this->container = ContainerFactory::container();
+
         return $this->container;
     }
 }
